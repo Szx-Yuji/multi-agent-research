@@ -1,0 +1,52 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      # Shared session state, so more than one worker is safe.
+      - REDIS_URL=redis://redis:6379/0
+      - WEB_CONCURRENCY=2
+    depends_on:
+      redis:
+        condition: service_healthy
+    # No command override: the image honours WEB_CONCURRENCY above. For
+    # backend hot reload, set WEB_CONCURRENCY=1 and add:
+    #   command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      # Baked into the browser bundle, so it must resolve from the host.
+      # "backend" only resolves inside the compose network.
+      - VITE_API_URL=http://localhost:8000
+      # Docker Desktop bind mounts do not deliver file events; without this,
+      # edits on the host never reach the dev server.
+      - VITE_USE_POLLING=true
+    depends_on:
+      - backend
+    restart: unless-stopped

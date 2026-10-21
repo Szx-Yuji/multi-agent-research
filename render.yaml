@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: multi-agent-research-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    branch: master
+    plan: free
+    envVars:
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_MODEL
+        value: deepseek-flash
+      - key: DEEPSEEK_BASE_URL
+        value: https://api.deepseek.com
+      - key: DEEPSEEK_TIMEOUT_SECONDS
+        value: "60"
+      - key: DEEPSEEK_THINKING
+        value: disabled
+      - key: TAVILY_API_KEY
+        sync: false
+      # Set these to the deployed frontend's origin, otherwise the browser's
+      # requests are rejected by CORS. Exact origin plus a regex for Vercel
+      # preview builds, whose hostname changes per deployment.
+      - key: CORS_ALLOW_ORIGINS
+        sync: false
+      - key: CORS_ALLOW_ORIGIN_REGEX
+        sync: false
+      # Generated once by Render, so tokens are not signed with a value
+      # that is committed to this repository.
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: PYTHONUNBUFFERED
+        value: "1"
+    healthCheckPath: /api/health

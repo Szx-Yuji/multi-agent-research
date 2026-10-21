@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-in {
+    animation: slide-in 0.25s ease-out both;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out both;
+  }
+}
+
+/* Markdown prose overrides */
+.prose h2 {
+  @apply text-base font-semibold mt-5 mb-2 text-gray-800;
+}
+
+.prose h3 {
+  @apply text-sm font-semibold mt-4 mb-1.5 text-gray-700;
+}
+
+.prose p {
+  @apply text-sm text-gray-700 leading-relaxed mb-3;
+}
+
+.prose ul, .prose ol {
+  @apply text-sm text-gray-700 pl-5 mb-3;
+}
+
+.prose li {
+  @apply mb-1;
+}
+
+.prose a {
+  @apply text-indigo-600 hover:text-indigo-800 underline;
+}
+
+.prose code {
+  @apply bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-xs font-mono;
+}
+
+.prose pre {
+  @apply bg-gray-900 text-gray-100 rounded-xl p-4 overflow-x-auto text-xs;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-gray-300 pl-4 text-gray-500 italic;
+}
+
+.prose strong {
+  @apply font-semibold text-gray-900;
+}

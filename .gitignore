@@ -1,0 +1,28 @@
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+.DS_Store
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+node_modules/
+dist/
+.vite/
+*.egg-info/
+.venv/
+venv/
+
+# live smoke run output
+scripts/last_live_report.md
+
+# local sqlite database (contains real password hashes)
+data/
+backend/data/
+*.db
+*.db-*
