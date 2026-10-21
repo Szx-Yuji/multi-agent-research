@@ -108,6 +108,10 @@ docker compose up --build
 Open **http://localhost:5173**. That brings up Redis, the API on port 8000, and
 the frontend on 5173.
 
+After dependency upgrades, use `docker compose up --build --renew-anon-volumes`
+to refresh the frontend's anonymous `node_modules` volume. Named data volumes
+are preserved. See [dependency security](SECURITY.md) for the audit policy.
+
 <details>
 <summary>Running without Docker</summary>
 
@@ -121,13 +125,15 @@ pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
 
-**Frontend** (Node 18+):
+**Frontend** (Node 24 and npm 11.12.1):
 
 ```bash
 cd frontend
-npm install
+npm ci --ignore-scripts
 npm run dev
 ```
+
+Tailwind 4 requires Safari 16.4+, Chrome 111+, or Firefox 128+.
 
 Without Redis the app keeps session state in process, which is fine for one
 worker. See *Running more than one worker* below.

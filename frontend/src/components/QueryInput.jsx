@@ -34,7 +34,7 @@ export default function QueryInput({ onSubmit, disabled }) {
             autoFocus
             placeholder="Ask a research question..."
             disabled={disabled}
-            className="w-full px-5 py-4 pr-32 text-gray-900 bg-white border border-gray-200 rounded-2xl shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-400 transition"
+            className="w-full px-5 py-4 pr-32 text-gray-900 bg-white border border-gray-200 rounded-2xl shadow-sm text-base focus:outline-hidden focus:ring-2 focus:ring-indigo-400 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-400 transition"
           />
           <button
             type="submit"
